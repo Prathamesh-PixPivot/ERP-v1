@@ -1,8 +1,12 @@
 import os
 from datetime import timedelta
 from pathlib import Path
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
+try:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+except ModuleNotFoundError:  # pragma: no cover - optional dependency
+    sentry_sdk = None
+    DjangoIntegration = None
 
 from django.conf import settings
 
@@ -274,6 +278,15 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 USE_TZ = True
+
+
+# ─────────────────────────────────────────────────────
+# ZABBIX CONFIGURATION
+# ─────────────────────────────────────────────────────
+
+ZABBIX_URL = os.getenv('ZABBIX_URL', 'http://localhost:8081')
+ZABBIX_USER = os.getenv('ZABBIX_USER', '')
+ZABBIX_PASSWORD = os.getenv('ZABBIX_PASSWORD', '')
 
 
 # ─────────────────────────────────────────────────────
